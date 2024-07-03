@@ -1,4 +1,4 @@
-package com.koios.expence_tracker.model;
+package com.koios.expense_tracker.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

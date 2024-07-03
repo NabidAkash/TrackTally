@@ -1,7 +1,7 @@
 # Read Me First
 The following was discovered as part of building this project:
 
-* The original package name 'com.koios.expence-tracker' is invalid and this project uses 'com.koios.expence_tracker' instead.
+* The original package name 'com.koios.expence-tracker' is invalid and this project uses 'com.koios.expense_tracker' instead.
 
 # Getting Started
 
