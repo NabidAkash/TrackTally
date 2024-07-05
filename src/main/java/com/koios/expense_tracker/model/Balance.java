@@ -17,14 +17,11 @@ import lombok.ToString;
 @Setter
 @ToString
 @Entity
-@Table(name = "users")
-public class User {
+@Table(name = "balances")
+public class Balance {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
-    private String username;
-    private String password;
-    private String name;
-    private String email;
-    private int balance;
+    private int walletBalance;
+    private int bkashBalance;
 }
