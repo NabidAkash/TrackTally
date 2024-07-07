@@ -18,10 +18,11 @@ import lombok.ToString;
 @ToString
 @Entity
 @Table(name = "balances")
-public class Balance {
+public class Wallet {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
-    private int walletBalance;
     private int bkashBalance;
+    private int nagadBalance;
+    private int bankBalance;
 }
