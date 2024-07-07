@@ -27,28 +27,28 @@ public class ExpenseService {
 
     @Transactional
     public ResponseEntity<?> addExpense(Expense expense) {
-        System.out.println("HI");
-        User user = new User();
-        user.setName("Nabid Anzum Akash");
-        user.setEmail("nabidanzum@gmail.com");
-        user.setUsername("nabidanzum");
-        user.setPassword("nabidanzum");
+        User user = userRepo.findById(1).get();
+        if(user.getWallet() == null){
+            Wallet wallet = new Wallet();
+            user.setWallet(wallet);
+            walletRepo.save(wallet);
+            userRepo.save(user);
+        }
 
-        Wallet  wallet = new Wallet();
-
-        /*
-        string userName = jwtService.getUserNameFromToken(Token);
-        User user = userRepo.findByUserName(userName);
-        user.getBalance();
-        */
-
+        Wallet wallet = user.getWallet();
 
         if(expense.getPaymentMethod() == PaymentMethod.BANK) {
             wallet.setBankBalance(wallet.getBankBalance() - expense.getAmount());
         }
+        else if(expense.getPaymentMethod() == PaymentMethod.BKASH) {
+            wallet.setBkashBalance(wallet.getBkashBalance() - expense.getAmount());
+        } else if (expense.getPaymentMethod() == PaymentMethod.NAGAD) {
+            wallet.setNagadBalance(wallet.getNagadBalance() - expense.getAmount());
+        }
         walletRepo.save(wallet);
         user.setWallet(wallet);
         userRepo.save(user);
+        expenseRepo.save(expense);
        return new ResponseEntity<>(userRepo.findAll(), HttpStatus.CREATED);
     }
 
@@ -61,7 +61,7 @@ public class ExpenseService {
 
     public ResponseEntity<?> getBalance(Integer id) {
         if(userRepo.findById(id).isPresent()) {
-            return new ResponseEntity<>(userRepo.findById(id).get().getWallet().getBankBalance(), HttpStatus.OK);
+            return new ResponseEntity<>(userRepo.findById(id).get().getWallet(), HttpStatus.OK);
         }
         return new ResponseEntity<>("Not Found", HttpStatus.NOT_FOUND);
     }
