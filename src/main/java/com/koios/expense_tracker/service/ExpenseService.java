@@ -91,16 +91,12 @@ public class ExpenseService {
             Wallet wallet = userRepo.findById(1).get().getWallet();
             if (expenseRepo.findById(id).isPresent()) {
                 String pMethod = expenseRepo.findById(id).get().getPaymentMethod().toString();
-                Integer amount = expenseRepo.findById(id).get().getAmount();
+                int amount = expenseRepo.findById(id).get().getAmount();
                 expenseRepo.deleteById(id);
-                if(pMethod.equals("BANK")) {
-                    wallet.setBankBalance(wallet.getBankBalance() + amount);
-                }
-                else if(pMethod.equals("NAGAD")) {
-                    wallet.setNagadBalance(wallet.getNagadBalance() + amount);
-                }
-                else if(pMethod.equals("BKASH")) {
-                    wallet.setBkashBalance(wallet.getBkashBalance() + amount);
+                switch (pMethod) {
+                    case "BANK" -> wallet.setBankBalance(wallet.getBankBalance() + amount);
+                    case "NAGAD" -> wallet.setNagadBalance(wallet.getNagadBalance() + amount);
+                    case "BKASH" -> wallet.setBkashBalance(wallet.getBkashBalance() + amount);
                 }
                 walletRepo.save(wallet);
                 return new ResponseEntity<>("Successfully deleted", HttpStatus.OK);
@@ -108,11 +104,5 @@ public class ExpenseService {
             return new ResponseEntity<>("Not Found Expense", HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>("Not Found User", HttpStatus.NOT_FOUND);
-    }
-
-    @Transactional
-    public ResponseEntity<?> addBalance() {
-        System.out.println("hi");
-        return new ResponseEntity<>("HI", HttpStatus.OK);
     }
 }
