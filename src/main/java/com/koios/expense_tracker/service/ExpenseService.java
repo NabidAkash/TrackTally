@@ -90,10 +90,10 @@ public class ExpenseService {
         if (userRepo.findById(1).isPresent()) {
             Wallet wallet = userRepo.findById(1).get().getWallet();
             if (expenseRepo.findById(id).isPresent()) {
-                String pMethod = expenseRepo.findById(id).get().getPaymentMethod().toString();
+                String paymentMethod = expenseRepo.findById(id).get().getPaymentMethod().toString();
                 int amount = expenseRepo.findById(id).get().getAmount();
                 expenseRepo.deleteById(id);
-                switch (pMethod) {
+                switch (paymentMethod) {
                     case "BANK" -> wallet.setBankBalance(wallet.getBankBalance() + amount);
                     case "NAGAD" -> wallet.setNagadBalance(wallet.getNagadBalance() + amount);
                     case "BKASH" -> wallet.setBkashBalance(wallet.getBkashBalance() + amount);
